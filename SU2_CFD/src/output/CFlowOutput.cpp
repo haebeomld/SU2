@@ -1491,7 +1491,9 @@ void CFlowOutput::SetVolumeOutputFieldsScalarPrimitive(const CConfig* config) {
       AddVolumeOutput("HL_Grad", "HL_Grad", "DEBUG", "HL_Grad");
       AddVolumeOutput("Wall_Normal_unit_x", "Wall_Normal_unit_x", "DEBUG", "Wall_Normal_unit_x");
       AddVolumeOutput("Wall_Normal_unit_y", "Wall_Normal_unit_y", "DEBUG", "Wall_Normal_unit_y");
-
+      if (nDim == 3) {
+        AddVolumeOutput("Wall_Normal_unit_z", "Wall_Normal_unit_z", "DEBUG", "Wall-normal unit vector z component");
+      }
       break;
 
     case TURB_TRANS_MODEL::NONE:
@@ -1686,6 +1688,9 @@ void CFlowOutput::LoadVolumeDataScalar(const CConfig* config, const CSolver* con
       SetVolumeOutputValue("HL_Grad", iPoint, Node_Trans->GetAFT_Wonder_Func_var15(iPoint));
       SetVolumeOutputValue("Wall_Normal_unit_x", iPoint, geometry->GetWallNormalUnitVector(iPoint, 0));
       SetVolumeOutputValue("Wall_Normal_unit_y", iPoint, geometry->GetWallNormalUnitVector(iPoint, 1));
+      if (nDim == 3) {
+        SetVolumeOutputValue("Wall_Normal_unit_z", iPoint, geometry->GetWallNormalUnitVector(iPoint, 2));
+      }
       break;
     
     case TURB_TRANS_MODEL::NONE: break;
