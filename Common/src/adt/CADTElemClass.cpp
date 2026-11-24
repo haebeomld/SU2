@@ -844,7 +844,9 @@ void CADTElemClass::Dist2ToElement(const unsigned long elemID, const su2double* 
       } else {
 
         for (unsigned short k = 0; k < nDim; ++k) {
-          xw[k] = (coorPoints[i0 + k] + coorPoints[i1 + k] + coorPoints[i2 + k]) / 3.0;
+          xw[k] = coorPoints[i0 + k]
+                + 0.5 * (1.0 + r) * (coorPoints[i1 + k] - coorPoints[i0 + k])
+                + 0.5 * (1.0 + s) * (coorPoints[i2 + k] - coorPoints[i0 + k]);
         }
       }
 
@@ -894,8 +896,11 @@ void CADTElemClass::Dist2ToElement(const unsigned long elemID, const su2double* 
         }
       } else {
         for (unsigned short k = 0; k < nDim; ++k) {
-          xw[k] = 0.25 * (coorPoints[i0 + k] + coorPoints[i1 + k] +
-                          coorPoints[i2 + k] + coorPoints[i3 + k]);
+          xw[k] = 0.25 * (
+              (1.0 - r) * (1.0 - s) * coorPoints[i0 + k] +
+              (1.0 + r) * (1.0 - s) * coorPoints[i1 + k] +
+              (1.0 + r) * (1.0 + s) * coorPoints[i2 + k] +
+              (1.0 - r) * (1.0 + s) * coorPoints[i3 + k]);
         }
       }
 
